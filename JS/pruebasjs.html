@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- declaraciones, variable, objeto (definiciones -->
+    <link rel="stylesheet" href="../CSS/bootstrap.css">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+      rel="stylesheet">
+    
+<body class="fontp">
+    <div class="m-4">
+        <input class="mb-2" name="ob1" id="A"></br>
+        <input class="mb-2" name="ob2" id="B"><br>
+        <input class="mb-2" name="resultado" id="C">
+    </div>
+
+<div class="m-4">
+    <button onclick="suma(A.value,B.value)"> Suma </button>
+    <button onclick="resta(A.value,B.value)"> Resta </button>
+    <button onclick="multiplicacion(A.value,B.value)"> Multiplicacion </button>
+    <button onclick="division(A.value,B.value)">Division </button>
+    <button onclick="seno(A.value)">Seno </button>
+    <button onclick="raiz(A.value)">Raiz </button>
+</div>
+   
+    <br>
+    <span class="ml-5 alert alert-danger" id="mensaje"></span>
+    
+
+    <script>
+        //reglas basica de js 
+        // no se usa ;
+        // se coloca ; cuando quieres tener 2 o mas instrucciones en el mismo renglon 
+        //a=5 ; b=4
+        //dinero = 4545.6 //local 
+        //var dinero = 555.5 //global , son variables globales que se pueden usar en todo el codigo de js 
+        //innerHTML atributo de css que se refiere al contenido de toda etiqueta no input , etiquetas input su contenido es con el atributo value 
+        //orientados a eventos 
+        document.getElementById('mensaje').style.display='none';
+
+        function suma() {
+            if (A.value == "" || B.value == ""){
+                
+                document.getElementById('mensaje').innerHTML = "INGRESE VALORES CORRECTOS";               
+                document.getElementById('mensaje').style.display='block';
+                return;
+            }else{
+                document.getElementById('mensaje').innerHTML = "";               
+                C.value=parseInt(arguments[0]) + parseInt(arguments[1])
+                
+            }
+        }
+
+        function resta (){
+            if (A.value == "" || B.value == ""){
+                document.getElementById('mensaje').innerHTML = "INGRESE VALORES CORRECTOS";               
+                return;
+            }else{
+                C.value=parseInt(arguments[0]) - parseInt(arguments[1])
+                
+            }
+        }
+
+        function multiplicacion (){
+            if (A.value == "" || B.value == ""){
+                document.getElementById('mensaje').innerHTML = "INGRESE VALORES CORRECTOS";               
+                return;
+            }else{
+                C.value=parseInt(arguments[0]) * parseInt(arguments[1]) 
+            }
+            
+        }
+
+        function division (){
+            if(A.value == "" || B.value == ""){
+                document.getElementById('mensaje').innerHTML = "INGRESE VALORES CORRECTOS";               
+                return;
+            }else{
+                C.value=parseInt(arguments[0]) / parseInt(arguments[1])
+            }
+            
+        }
+
+        function raiz (){
+            if(A.value == "" || A.value <= 0){
+                document.getElementById('mensaje').innerHTML = "INGRESE VALORES CORRECTOS";               
+                return;
+            }else {
+                B.value="";
+                C.value=Math.sqrt(A.value)
+            }
+            
+        }
+
+        function seno  (){
+            radianes= A.value * (Math.PI / 180)
+            if(A.value == "" || A.value <= 0){
+                document.getElementById('mensaje').innerHTML = "INGRESE VALORES CORRECTOS";               
+                return;
+            }else {
+                B.value="";
+                C.value=Math.sin(radianes); 
+            }   
+        }
+    </script>
+</body>
+</html>
