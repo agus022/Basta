@@ -1,0 +1,193 @@
+<html>
+
+<head>
+    <script type="text/javascript">
+        function carga() {
+            posicion = 0; elMovimiento = null;
+
+        }
+
+        function evitaEventos(event) {
+            event.preventDefault();
+        }
+
+        function comienzoMovimiento(event, id) {
+            elMovimiento = document.getElementById(id);
+
+            cursorComienzoX = event.clientX + window.scrollX;
+            cursorComienzoY = event.clientY + window.scrollY;
+
+            document.addEventListener("mousemove", enMovimiento, true);
+            document.addEventListener("mouseup", finMovimiento, true);
+
+            elComienzoX = parseInt(elMovimiento.style.left);
+            elComienzoY = parseInt(elMovimiento.style.top);
+            // Actualizo el posicion del elemento
+            elMovimiento.style.zIndex = ++posicion;
+            evitaEventos(event);
+        }
+
+        function enMovimiento(event) {
+            var xActual, yActual;
+            xActual = event.clientX + window.scrollX;
+            yActual = event.clientY + window.scrollY;
+
+            elMovimiento.style.left = (elComienzoX + xActual - cursorComienzoX) + "px";
+            elMovimiento.style.top = (elComienzoY + yActual - cursorComienzoY) + "px";
+            evitaEventos(event);
+        }
+
+        function finMovimiento(event) {
+            document.removeEventListener("mousemove", enMovimiento, true);
+            document.removeEventListener("mouseup", finMovimiento, true);
+        }
+
+
+        //cicloo que genere 5 cartas 
+        // Creamos un bucle para generar 5 elementos similares
+        //posicion aleatoria
+        //no repetir la carta 
+
+    </script>
+</head>
+
+<body onLoad="carga();">
+
+    <!-- <div id="div1" style="top:100px; width:112px; left:100px; background-color:black; position:absolute; height:158px; "
+        onmousedown="comienzoMovimiento(event, this.id);" onmouseover="this.style.cursor='move'">
+        <center>
+            <img src="../imagenes/1C.jpg" />
+        </center>
+    </div>
+
+
+    <div id="div2" style="top:200px; left:300px; width:112px; height:158px; position:absolute; background-color:black; "
+        onmousedown="comienzoMovimiento(event, this.id);" onMouseOver="this.style.cursor='move'">
+        <img src="../imagenes/1T.jpg" />
+    </div> -->
+
+
+    <input name="enviar" id="enviar" type="button" value="Enviar" onclick="alert('hay!')">
+
+
+    <script>
+
+        let imagenes = [
+            '../imagenes/1C.jpg',
+            '../imagenes/1D.jpg',
+            '../imagenes/1P.jpg',
+            '../imagenes/1T.jpg',
+
+            '../imagenes/2C.jpg',
+            '../imagenes/2D.jpg',
+            '../imagenes/2P.jpg',
+            '../imagenes/2T.jpg',
+
+            '../imagenes/3C.jpg',
+            '../imagenes/3D.jpg',
+            '../imagenes/3P.jpg',
+            '../imagenes/3T.jpg',
+
+            '../imagenes/4C.jpg',
+            '../imagenes/4D.jpg',
+            '../imagenes/4P.jpg',
+            '../imagenes/4T.jpg',
+
+            '../imagenes/5C.jpg',
+            '../imagenes/5D.jpg',
+            '../imagenes/5P.jpg',
+            '../imagenes/5T.jpg',
+
+            '../imagenes/6C.jpg',
+            '../imagenes/6D.jpg',
+            '../imagenes/6P.jpg',
+            '../imagenes/6T.jpg',
+
+            '../imagenes/7C.jpg',
+            '../imagenes/7D.jpg',
+            '../imagenes/7P.jpg',
+            '../imagenes/7T.jpg',
+
+            '../imagenes/8C.jpg',
+            '../imagenes/8D.jpg',
+            '../imagenes/8P.jpg',
+            '../imagenes/8T.jpg',
+
+            '../imagenes/9C.jpg',
+            '../imagenes/9D.jpg',
+            '../imagenes/9P.jpg',
+            '../imagenes/9T.jpg',
+
+            '../imagenes/10C.jpg',
+            '../imagenes/10D.jpg',
+            '../imagenes/10P.jpg',
+            '../imagenes/10T.jpg',
+
+            '../imagenes/11C.jpg',
+            '../imagenes/11D.jpg',
+            '../imagenes/11P.jpg',
+            '../imagenes/11T.jpg',
+
+            '../imagenes/12C.jpg',
+            '../imagenes/12D.jpg',
+            '../imagenes/12P.jpg',
+            '../imagenes/12T.jpg',
+
+            '../imagenes/13C.jpg',
+            '../imagenes/13D.jpg',
+            '../imagenes/13P.jpg',
+            '../imagenes/13T.jpg',
+        ];
+        function obtenerImagenAleatoria() {
+            
+            let indice = Math.floor(Math.random() * imagenes.length);
+            let imagen = imagenes[indice];
+            imagenes.splice(indice, 1);
+            return imagen;
+        }
+        for (let i = 0; i < 5; i++) {
+            let newDiv = document.createElement('div');
+
+            newDiv.id = 'div' + (i + 1); 
+            newDiv.style.top = '100px';
+            newDiv.style.width = '112px';
+            newDiv.style.left = (100 + i * 150) + 'px'; // Posición horizontal espaciada
+            newDiv.style.backgroundColor = 'black';
+            newDiv.style.position = 'absolute';
+            newDiv.style.height = '158px';
+            newDiv.onmousedown = function (event) {
+                comienzoMovimiento(event, this.id);
+            };
+            newDiv.onmouseover = function () {
+                this.style.cursor = 'move';
+            };
+
+            let newImg = document.createElement('img');
+            let randomImage = obtenerImagenAleatoria();
+            if (randomImage) {
+                let scriptPath = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
+                newImg.src = scriptPath + '/' + randomImage;
+            }
+
+            // Añadimos la imagen al centro del div
+            let center = document.createElement('center');
+            center.appendChild(newImg);
+            newDiv.appendChild(center);
+
+            // Añadimos el nuevo div al cuerpo del documento
+            document.body.appendChild(newDiv);
+        }
+
+
+
+        //la baraja debe de estar interactuando con la base de datos 
+        //para que cada usuario tenga la misma baraja pero no se repita 
+        //usar sessiones de php 
+        //si quiero una carta la dejo y si no quiero se cambia 
+        //poker 
+        
+
+    </script>
+</body>
+
+</html>

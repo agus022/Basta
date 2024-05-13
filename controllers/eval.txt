@@ -1,0 +1,45 @@
+eval 
+on 
+
+
+
+id.addListeners 
+preventDefault 
+
+requiere - dispara un preventDefault
+dar de alta dos veces su clave y ponerle un requiere  
+problemas del cache 
+1. apagar el cache 
+2. refrescar 
+3. control de versiones 
+
+Con JS pelon 
+Nombre.value="FEDERICO"
+
+Con jQery
+$("#Nombre").val("FEDERICO")
+   #html_id        valor
+
+
+JS 
+input value 
+contenedores innerHTML
+
+Jquery 
+input val()
+contenedores html()
+
+
+
+Su interfaz 
+
+html
+contiene un text area 
+un boton 
+Un span o duv llamando mensajes 
+
+JS 
+
+
+ENDPOINT 
+ES EL RECURSO QUE RESUIELVE PETICIONES, SIN NECESIDAD DE UNA INTERFAZ = WEB SERVICE 

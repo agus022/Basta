@@ -1,12 +1,11 @@
 <?
 $ruta="./archivos/";
 
-
-
 if(isset($_FILES['archivo']) && $_FILES['archivo']['name']){
     if(!is_dir($ruta))
         mkdir("archivos");
     move_uploaded_file($_FILES['archivo']['tmp_name'], $ruta.$_FILES['archivo']['name']);
+    
 }
 
 ?>
@@ -25,6 +24,7 @@ if(isset($_FILES['archivo']) && $_FILES['archivo']['name']){
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
+    
     <form method="post"  enctype="multipart/form-data">
         <input type="file" name="archivo" >
         <input type="submit">

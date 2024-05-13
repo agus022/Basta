@@ -3,42 +3,46 @@
 session_start();
 session_unset();
 
-function capchat(&$resu){
-  $operadores="+-*";
+include "./barra.php";
 
-  $op1=$operadores[rand()%3];
-  $op2=$operadores[rand()%3];
+function capchat(&$resu)
+{
+  $operadores = "+-*";
 
-  $dig1=rand()%9+1;
-  $dig2=rand()%9+1;
-  $dig3=rand()%9+1;
+  $op1 = $operadores[rand() % 3];
+  $op2 = $operadores[rand() % 3];
 
-  $resu=resuelve($dig1,$dig2,$op1);
-  $resu=resuelve($resu,$dig3,$op2);
+  $dig1 = rand() % 9 + 1;
+  $dig2 = rand() % 9 + 1;
+  $dig3 = rand() % 9 + 1;
 
-  $capchatLogin=$dig1.$op1.$dig2.$op2.$dig3;
+  $resu = resuelve($dig1, $dig2, $op1);
+  $resu = resuelve($resu, $dig3, $op2);
+
+  $capchatLogin = $dig1 . $op1 . $dig2 . $op2 . $dig3;
   return $capchatLogin;
 }
 
-function resuelve ($dig1,$dig2,$op1){
-  if ($op1=="+")return $dig1+$dig2;
-  else if ($op1=="-") return $dig1-$dig2;
-  else return $dig1*$dig2;
+function resuelve($dig1, $dig2, $op1)
+{
+  if ($op1 == "+") return $dig1 + $dig2;
+  else if ($op1 == "-") return $dig1 - $dig2;
+  else return $dig1 * $dig2;
 }
 
 //verificacion del resultado
-$resuLogin=$resuRegistro=$resultPwd=0;
+$resuLogin = $resuRegistro = $resultPwd = 0;
 
-$capchatLogin=capchat($resuLogin);
-$capchatNewUser=capchat($resuRegistro);
-$capchatPwd=capchat($resultPwd);
+$capchatLogin = capchat($resuLogin);
+$capchatNewUser = capchat($resuRegistro);
+$capchatPwd = capchat($resultPwd);
 
-$_SESSION['capt_login']=$resuLogin;
-$_SESSION['capt_record']=$resuRegistro;
-$_SESSION['capt_contra']=$resultPwd;
+$_SESSION['capt_login'] = $resuLogin;
+$_SESSION['capt_record'] = $resuRegistro;
+$_SESSION['capt_contra'] = $resultPwd;
 
 echo ($resuLogin);
- 
+
 //var_dump($_SESSION);
 ?>
 
@@ -52,76 +56,46 @@ echo ($resuLogin);
   <link rel="stylesheet" href="../CSS/bootstrap.css">
   <link rel="stylesheet" href="../CSS/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
 <body class="fontp background-img">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-
-          <a class="nav-link" href="./home.php"><i class="bi bi-house p-1"></i>Home </i></a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="./login.php"><i class="bi bi-door-open p-1"></i>Login </i></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./registro.php"><i class="bi bi-person-add p-1"></i>Registro </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./Passwortwiederherstellen.php"><i class="bi bi-lock p-1"></i>Recuperar
-            Contraseña</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./acerca.html"><i class="bi bi-info-circle p-1"></i>Acerca de</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
   <br>
 
-
-
-  <div style="margin: auto; width: 600px;" class="card shadow-pop-tr rounded-4 cards-aling" >
+  <div style="margin: auto; width: 600px;" class="card shadow-pop-tr rounded-4 cards-aling">
     <div class="card-body">
-      
-    <form action="../class/classAcceso.php" method="post">
+
+      <form action="../class/classAcceso.php" method="post">
         <input type="hidden" name="action" value="login">
 
         <?php
-          if (isset($_GET['m'])){
-            $estado=$_GET['m'];
-            $mensaje= "";
+        if (isset($_GET['m'])) {
+          $estado = $_GET['m'];
+          $mensaje = "";
 
-            switch($estado){
-              case 1:
-                $mensaje="Error de credenciales";
-                break;
-              case 2:
-                $mensaje="Error de campos vacios";
-                break;
-              case 3:
-                $mensaje="Error capchat es incorrecto";
-                break;  
-              default:
-                $mensaje="CHECATE MIJO";
-                break;
-            }
+          switch ($estado) {
+            case 1:
+              $mensaje = "Error de credenciales";
+              break;
+            case 2:
+              $mensaje = "Error de campos vacios";
+              break;
+            case 3:
+              $mensaje = "Error capchat es incorrecto";
+              break;
+            case 4:
+              $mensaje = "Inicia sesion";
+              break;
+            default:
+              $mensaje = "CHECATE MIJO";
+              break;
+          }
 
-            echo ("<div class='container border rounded-1 fs-4 container-fluid alert alert-danger'> 
+          echo ("<div class='container border rounded-1 fs-4 container-fluid alert alert-danger'> 
                   $mensaje
                   </div>");
-          }
+        }
         ?>
 
         <div class="form-group">
@@ -138,29 +112,22 @@ echo ($resuLogin);
         <br>
         <div class="form-group">
           <label class="form-check-label fs-4" for="exampleCheck1">Capchat: </label>
-          <input type="text" class="form-control fs-5 w-50 p-3" name="capchat" id="capchat_login" aria-describedby="emailHelp"
-            placeholder="Cuanto es <?=$capchatLogin;?>">
-  
+          <input type="text" class="form-control fs-5 w-50 p-3" name="capchat" id="capchat_login" aria-describedby="emailHelp" placeholder="Cuanto es <?= $capchatLogin; ?>">
+
         </div>
         <br>
         <button type="submit" class="btn btn-primary rounded-4">Iniciar Sesion</button>
       </form>
-  
+
     </div>
-    
+
   </div>
 
 </body>
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </html>

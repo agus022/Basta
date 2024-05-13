@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../CSS/bootstrap.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+      function revisa() {
+        // ajax vamps a concumir los mensajes y vamos a maquetar el div
+
+        $.ajax({
+          url: "http://172.20.105.1/pw2024_1/pruebaAJAX.php",
+          type: "post",
+          data: { accion: "revisa" },
+          success: function (result) {
+            console.log(result);
+            obj = JSON.parse(result);
+            cad = "";
+            for (i = 0; i < obj.lenght; i++)
+              cad +=
+                "<h6 class='fs-4 text-primary'>" + obj[i].comentario + "</h6>";
+            mensajes.innerHTML = cad;
+          },
+          beforeSend: function () {
+            mensajes.innerHTML = "Cargando.........";
+          },
+        });
+      }
+
+      function registra() {
+        // ajax lanzaremos al registro de mi mensaje
+      }
+    </script>
+  </head>
+  <body>
+    <div class="d-flex justify-content-center">
+      <textarea id="comentario" class="mt-4"> </textarea><br />
+      <input
+        type="button"
+        onclick="registra()"
+        value="Registrar"
+        class="btn btn-light hover"
+      />
+    </div>
+    <script>
+      hilc = setInterval(revisa, 3000);
+    </script>
+  </body>
+</html>

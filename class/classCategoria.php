@@ -59,7 +59,11 @@ class Categoria extends baseDatos{
         foreach($this->a_bloqRegistros as $row){
             $datos.='<tr>';
             //iconos de accion 
-            $datos.='<td class="col-1"> <form method="post"> <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button> <input type="hidden" name="accion" value="delete"> 
+            $datos.='<td class="col-1"> 
+            <form method="post" onsubmit="return confirm(\'Estas seguro de borrar el registro: ' .$row['palabra'].'\')"> 
+            <button class="btn btn-sm btn-danger"
+            onclick= "return confirm(\'Estas seguro de borrar el registro: ' .$row['palabra'].'\')"
+            ><i class="bi bi-trash"></i></button> <input type="hidden" name="accion" value="delete"> 
             <input type="hidden" name="id" value="'.$row['id_categoria'].'"> </form></td>';
             $datos.='<td class="col-1><form methid="post"><button class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></button> <input type="hidden" name="accion" value="update"> 
             <input type="hidden" name="id" value="update"> </form></td>';

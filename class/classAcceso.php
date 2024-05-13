@@ -75,12 +75,12 @@ class Acceso extends baseDatos{
     //CREACION DE LA FUNCION PARA REGISTRAR NUEVO USUARIO 
     function newUser(){
         //VARIABLES 
-        $nombre=$_POST['nombre'];
-        $apellidos=$_POST['apellidos'];
-        $email=$_POST['email'];
-        $clave=$_POST['clave'];
-        $capchat=$_POST['capchat'];
-        $capchat_newUser=$_SESSION['capt_record'];
+        $nombre= $_REQUEST['nombre'];
+        $apellidos= $_REQUEST['apellidos'];
+        $email= $_REQUEST['email'];
+        $clave= $_REQUEST['clave'];
+        $capchat= $_REQUEST['capchat'];
+        $capchat_newUser= $_SESSION['capt_record'];
 
 
         if($email != null && $clave != null && $capchat != null && $nombre != null && $apellidos != null){
@@ -88,44 +88,88 @@ class Acceso extends baseDatos{
                 header("location: ../HTML/registro.php?m=3"); //error capchat registro 
                 exit;
             }
-        }
+            if ($this ->isEmailRegistered($email) === true){
+                header("location: ../HTML/registro.php?m=2");
+                exit;
+            }
 
+            include ("../resource/class.smtp.php");
+            include ("../resource/class.phpmailer.php");
 
-        require '../resource/class.smtp.php';
-        require '../resource/class.phpmailer.php';
-        
-        $mail = new PHPMailer(true);
-        try {
-            // Configurar el servidor SMTP
+            $cadena="ABCDEFGHIJKLMNPQRSTUVWXYZ123456789123456789";
+            $numeC=strlen($cadena);
+            $nuevPWD="";
+            for ($i=0; $i<8; $i++){
+                $nuevPWD.=$cadena[rand()%$numeC]; 
+            }
+
+            $conDB = new baseDatos();
+            $query="insert into usuario set nombre ='".$nombre."', apellidos ='".$apellidos."', email= '".$email."', clave='".$nuevPWD."')" ;
+            
+            
+            $mail = new PHPMailer(true);
             $mail->isSMTP();
-            $mail->Host = 'smtp.example.com';
+            $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'flores.jorge.1j@gmail.com';
-            $mail->Password = 'Mandojorge22';
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port = 4665;
+            $mail->SMTPDebug  = 4;  
+            $mail->Username = '20031296@itcelaya.edu.mx';
+            $mail->Password = 'clgg ifta ibzp tgrx';
         
-            // Configurar el correo electrónico
-            $mail->setFrom('tu_correo@example.com', 'Tu Nombre');
-            $mail->addAddress('correo_destino@example.com', 'Nombre Destinatario');
-            $mail->Subject = 'Asunto del correo';
-            $mail->Body = 'Contenido del correo electrónico';
-        
-            // Enviar el correo electrónico
+            $mail->setFrom('20031296@itcelaya.edu.mx', 'Ing. Agus');
+            $mail->addAddress($email,$nombre);
+            $mail->Subject = 'CORREO DE VERIFICACION (BASTA)';
+            $mail->Body = 'Hola '.$nombre.', <br><br> 
+            Tu cuenta fue registrada correctamente con el siguiente correo: '.$email.'  <br><br>
+            BIENVENIDO !!!';
+            $mail->isHTML(true);
             $mail->send();
             echo '¡El correo electrónico ha sido enviado!';
-        } catch (Exception $e) {
-            echo 'Error al enviar el correo electrónico: ' . $mail->ErrorInfo;
-        }
 
+            $conDB->query($query);
+            header("location: ../HTML/login.php?m=5");
+        }else{
+            header("location: ../HTML/registro.php?m=1");
+
+        }
     }
 
 
     //CREACION DE LA FUNCION PARA RECORDAR CONTRASEÑA 
     function recordPwd(){
+        //VARIABLES
+        $email = $_POST['email'];
+        $captcha = $_POST['captcha'];
 
+            if($email != null && $captcha != null){
+                if ($_SESSION['capt_contra'] != $captcha){
+                    header("location: ../HTML/Passwortwiederherstellen.php?m=6");//ERROR DE CAPCHAT
+                    return;
+                }
+
+                if($this->isEmailRegistered($email)){
+                    // TODO: Genera una nueva contraseña y envía un correo de recuperación
+                }else{
+                    header("location: ../Passwortwiederherstellen.php?m=5"); // No registrado
+                }
+            }else{
+                header("location: ../Passwortwiederherstellen.php?m=1");
+            }
     }
 
+    function isEmailRegistered($email_p){
+        $conDB = new baseDatos();
+            $querySelectUser = "select * from usuario where email='{$email_p}'";
+            $conDB->getRecord($querySelectUser);
+            $conDB->query($querySelectUser);
+
+            if ($conDB->a_numRegistros == 1){
+                return true;
+            }else{
+                return false;
+            }
+    }
 
 /*
     $cadena="ABCDEFGHIJKLMNPQRSTUVWXYZ123456789123456789";
